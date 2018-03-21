@@ -1,5 +1,6 @@
 # BasicReactor
-A basic reactor in cpp
+A reactor Echo server implemented in cpp
+<br>
 <br>
 <br>
 compile :
