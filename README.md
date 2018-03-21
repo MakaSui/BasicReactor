@@ -1,2 +1,7 @@
 # BasicReactor
-a basic reactor in cpp
+A basic reactor in cpp
+
+compile
+‘’‘
+make
+‘’‘
