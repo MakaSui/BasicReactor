@@ -8,6 +8,6 @@ compile :
 
 <br>
 
-run in localhost:8088 :
+run on localhost port 8088 :
 
     ./basicreactor 127.0.0.1 8088
