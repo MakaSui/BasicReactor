@@ -27,7 +27,8 @@ void EventLoopThreadPool::start(int thread_num) {
 
 }
 
-void EventLoopThreadPool::run(const std::function<void()> &task) {
+#ifdef __GXX_EXPERIMENTAL_CXX0X__
+void ThreadPool::run(std::function<void()>&& task) {
     if(thread_.empty()) {
         task();
     }
@@ -43,6 +44,24 @@ void EventLoopThreadPool::run(const std::function<void()> &task) {
 
     }
 }
+#else
+    void ThreadPool::run(const std::function<void(void)>& task) {
+        if(thread_.empty()) {
+            task();
+        }
+        else {
+
+            // queue full
+            std::unique_lock<std::mutex> lock(mutex_);
+            notFull_.wait(lock,[this]{return !isFull();});
+                
+            assert(!isFull());
+            queue_.push(task);
+            notEmpty_.notify_one();
+
+        }
+    }
+#endif
 
 std::function<void()> EventLoopThreadPool::take() {
     // start && queue empty
