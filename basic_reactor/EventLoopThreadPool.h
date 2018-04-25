@@ -20,7 +20,11 @@ public:
     ~EventLoopThreadPool();
     void start(int thread_num);
     void stop();
-    void run(const std::function<void()> &task);
+#ifdef __GXX_EXPERIMENTAL_CXX0X__
+    void run(std::function<void()>&& task);
+#else
+    void run(const std::function<void(void)> &task);
+#endif
     bool isFull();
     std::function<void ()> take();
     void runInThread();
