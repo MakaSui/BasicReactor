@@ -28,7 +28,7 @@ void TcpEventHandle::handleWrite(int fd){
     this->w_fd = fd;
 
     //write_();
-    //threadPool_->run(std::bind(write_,this));
+    threadPool_->run(std::bind(&TcpEventHandle::write_,this));
 }
 
 void TcpEventHandle::handleError() {
@@ -53,7 +53,7 @@ void TcpEventHandle::read_() {
         std::cout<<"read() error"<<std::endl;
     }
 
-    epoller.remove_handle(epollfd, r_fd);
+    epoller.remove_handle(r_fd, epollfd);
 
     close(r_fd);
     std::cout<<"client shutdown！！！"<<std::endl;
